@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    
+    <!----------------------- Main Container -------------------------->
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <!----------------------- Login Container -------------------------->
+        <div class="row border rounded-5 p-3 bg-white shadow box-area">
+            <!--------------------------- Left Box ----------------------------->
+            <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background: #212529;">
+                <div class="featured-image mb-3">
+                    <img src="{% static 'Logo_Koursero.png' %}" class="img-fluid" style="width: 250px;">
+                </div>
+                <p class="text-white fs-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 600;">Koursero</p>
+                <small class="text-white text-wrap text-center" style="width: 17rem;font-family: 'Courier New', Courier, monospace;">Select, Learn and Enjoy!</small>
+            </div> 
+            <!--------------------------- Right Box ---------------------------->
+            <div class="col-md-6 right-box">
+                <div class="row align-items-center">
+                    <div class="header-text mb-4">
+                        <h2>Hello,Again</h2>
+                        <p>We are happy to have you back.</p>
+                    </div>
+
+                    <!--Form for Login-->
+                    <form method="POST" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control form-control-lg bg-light fs-6" name="username" placeholder="Enter your UserName...">
+                        </div>
+
+                        <div class="input-group mb-1">
+                            <input type="password" class="form-control form-control-lg bg-light fs-6" name="password" placeholder="Enter your Password...">
+                        </div>
+                        <br>
+                        <div class="input-group mb-3">
+                            <button class="btn btn-lg btn-dark w-100 fs-6">Login</button>
+                        </div>
+                    </form>
+                    
+                    <div class="row">
+                        <small>Don't have account? <a href="{% url 'register' %}">Sign Up</a></small>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+{% endblock %}

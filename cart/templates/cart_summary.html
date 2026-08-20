@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% block content %}
+        <!-- Header-->
+        <header class="bg-dark py-5">
+            <div class="container px-4 px-lg-5 my-5">
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder">Shopping Cart</h1>
+                    
+                    <p class="lead fw-normal text-white-50 mb-0">View Your Cart...</p>
+                </div>
+            </div>
+        </header>
+        <br>
+        <div class="container">
+
+            {% if cart_formations %}
+                {% for formation in cart_formations %}
+                    <div class="card mb-3" >
+                        <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="{{formation.image.url}}" class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <center>
+                                    <h5 class="card-title">{{formation.titre}}</h5>
+                                    <p class="card-text">{{formation.descriptif}}</p>
+                                    <p class="card-text"><strong>Price: </strong><span class="text-muted text-decoration-line-through">$50.00</span>
+                                        ${{formation.prix}}</p>
+                                    <p class="card-text"><strong>Date: </strong>{{ formation.date_formation }}</p> 
+                                    <p class="card-text"><strong>Made by: </strong>{{ formation.formateur }}</p>
+                                    
+                                </center>                
+                                <a href="{% url 'home' %}" class="btn btn-secondary">Go back home</a>
+                                <!--
+                                    <button type="button" data-index="formation.id" class="btn btn-secondary update-cart" >
+                                    Update
+                                </button>
+                                -->
+                                <button type="button" data-index="{{formation.id}}" class="btn btn-danger delete-formation" >
+                                    Delete
+                                </button>
+                                
+                
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <h3>Total: ${{ totals }}</h3>
+            {% else %}
+                    There's Nothing In Your Cart...
+            {% endif %}
+
+        </div>
+        
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+
+        <script>
+        //Check if button pressed
+        $(document).on('click', '.update-cart', function(e){
+        e.preventDefault();
+        var formationid = $(this).data('index');
+        //Ajax to send stuff to the server without having to refresh the page
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart_update" %}',
+            data: {
+            formation_id: $(this).data('index'),
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+            },
+
+            success: function(json){
+            //console.log(json)
+            //document.getElementById("cart_quantity").textContent = json.qty
+            location.reload();
+            },
+
+            error: function(xhr, errmsg, err){
+
+            }
+
+        });
+
+        })
+        //FOR DELETE
+        //Check if button pressed
+        $(document).on('click', '.delete-formation', function(e){
+        e.preventDefault();
+        //var formationid = $(this).data('index');
+        //Ajax to send stuff to the server without having to refresh the page
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart_delete" %}',
+            data: {
+            formation_id: $(this).data('index'),
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+            },
+
+            success: function(json){
+            //console.log(json)
+            //document.getElementById("cart_quantity").textContent = json.qty
+                location.reload();
+            },
+
+            error: function(xhr, errmsg, err){
+
+            }
+
+        });
+
+        })
+
+        </script>
+{% endblock %}

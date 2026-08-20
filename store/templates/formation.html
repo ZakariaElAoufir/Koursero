@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<br><br>
+<br>
+<div class="container">
+
+    <div class="card mb-3" >
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="{{formation.image.url}}" class="img-fluid rounded-start" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+                <center>
+                    <h5 class="card-title">{{formation.titre}}</h5>
+                    <p class="card-text">{{formation.descriptif}}</p>
+                    <p class="card-text"><strong>Price: </strong><span class="text-muted text-decoration-line-through">$50.00</span>
+                        ${{formation.prix}}</p>
+                    <p class="card-text"><strong>Date: </strong>{{ formation.date_formation }}</p> 
+                    <p class="card-text"><strong>Made by: </strong>{{ formation.formateur }}</p>
+                </center>                
+                <a href="{% url 'home' %}" class="btn btn-dark">Go back home</a>
+                <button type="button" value="{{ formation.id }}" id="add-cart" class="btn btn-secondary">Add to cart</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+</div>
+
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+        <br><br>
+
+<script>
+//Check if button pressed
+$(document).on('click', '#add-cart', function(e){
+  e.preventDefault();
+  //Ajax to send stuff to the server without having to refresh the page
+  $.ajax({
+    type: 'POST',
+    url: '{% url "cart_add" %}',
+    data: {
+      formation_id: $('#add-cart').val(),//taking the value of the formation.id
+      csrfmiddlewaretoken: '{{ csrf_token }}',
+      action: 'post'
+    },
+
+    success: function(json){
+      //console.log(json)
+      document.getElementById("cart_quantity").textContent = json.qty
+      location.reload();
+    },
+
+    error: function(xhr, errmsg, err){
+
+    }
+
+  });
+
+})
+
+
+
+</script>
+
+
+{% endblock %}

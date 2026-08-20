@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    
+    
+    
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="row border rounded-5 p-3 bg-white shadow box-area">
+        <div class="col-md-6 rounded-4 d-flex justify-content-center align-items-center flex-column left-box" style="background: #212529;">
+            <div class="featured-image mb-3">
+                <img src="{% static 'Logo_Koursero.png' %}" class="img-fluid" style="width: 250px;">
+            </div>
+            <p class="text-white fs-2" style="font-family: 'Courier New', Courier, monospace; font-weight: 600;">Koursero</p>
+            <small class="text-white text-wrap text-center" style="width: 17rem;font-family: 'Courier New', Courier, monospace;">Select, Learn and Enjoy!</small>
+        </div> 
+        
+        <div class="col-md-6 right-box">
+            <div class="row align-items-center">
+                <div class="header-text mb-4">
+                    <br>
+                    <h2>Update Profile</h2>
+                    <p>Update User Profile.</p>
+                </div>
+
+                <form method="POST" action="{% url 'update_user' %}">
+                    {% csrf_token %}
+                    {{ user_form.as_p }}
+                                        
+                    <div class="d-grid gap-2">
+                        <button class="btn btn-dark" type="submit">Update Profile</button>                        
+                    </div>
+                    <br>
+                    <div class="row">                    
+                        <small>Update current <a href="{% url 'update_password' %}">Password</a>?</small>
+                    </div>
+
+                </form>
+                
+                
+            </div>
+        </div> 
+    </div>
+</div>
+
+
+
+{% endblock %}
